@@ -1,0 +1,44 @@
+
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: customer-api
+
+  main:
+    banner-mode: OFF
+
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+      cluster-name: elasticsearch-cluster
+      cluster-nodes: localhost:9300
+    rest:
+      uris: localhost:9200
+
+endpoints:
+  health:
+    sensitive: true
+management:
+  health:
+    probes:
+      enabled: true
+  endpoint:
+    beans:
+      enabled: true
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: beans,env,health,info,metrics,mappings,prometheus
+springdoc:
+  api-docs:
+    path: /api-docs
+  show-actuator: false
+  swagger-ui:
+    operations-sorter: method
+
+start-up-data: true

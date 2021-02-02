@@ -1,0 +1,123 @@
+version: "3.8"
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:7.9.3
+    container_name: elasticsearch
+    restart: unless-stopped
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      cluster.name: elasticsearch-cluster
+      discovery.type: single-node
+      bootstrap.memory_lock: "true"
+      network.bind_host: 0.0.0.0
+      transport.host: 127.0.0.1
+      network.host: 0.0.0.0
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: "curl -f http://localhost:9200 || exit 1"
+      start_period: 30s
+
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.9.3
+    container_name: logstash
+    restart: unless-stopped
+    ports:
+      - "5044:5044"
+    volumes:
+      - ./config/logstash/pipeline:/usr/share/logstash/pipeline/
+    depends_on:
+      - elasticsearch
+    healthcheck:
+      test: "curl -f http://localhost:9600 || exit 1"
+      start_period: 30s
+
+
+  filebeat:
+    build: config/filebeat
+    container_name: filebeat
+    restart: unless-stopped
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/containers:/usr/share/dockerlogs/data:ro
+    depends_on:
+      - elasticsearch
+      - logstash
+
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana-oss:7.9.3
+    container_name: kibana
+    restart: unless-stopped
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    healthcheck:
+      test: "curl -f http://localhost:5601 || exit 1"
+      start_period: 30s
+    depends_on:
+      - elasticsearch
+      - filebeat
+      - logstash
+
+
+  prometheus:
+    image: prom/prometheus:v2.23.0
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "9090" ]
+      start_period: 30s
+
+  grafana:
+    image: grafana/grafana:7.3.5
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    environment:
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - ./config/grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "3000" ]
+      start_period: 30s
+
+  spring-elasticsearch:
+    build: customer-api
+    ports:
+      - 8080:8080
+    expose:
+      - "8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - spring.data.rest.uris=elasticsearch:9200
+      - start-up-data:false
+    healthcheck:
+      test: ["CMD","http://localhost:8080/"]
+    depends_on:
+      - elasticsearch
+      # - prometheus
+      # - filebeat
+      # - grafana
+      # - logstash
+    restart: on-failure:5 
+    links:
+      - elasticsearch:elasticsearch
+networks:
+    spring-elasticsearch-network:

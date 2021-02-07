@@ -40,7 +40,7 @@ Para vizualizar todos os endpoints basta acessar a URL:
 ```
 http://localhost:8080/swagger-ui.html
 ```
-![customer-api-swagge](images/customer-api-swagger.png)
+![customer-api-swagge](images/customer-api-swagger.PNG)
 ### Monitoramento (Observability)
 Quando trabalhamos microserviços é recomendado ter um ecossitema de facil acesso para que monitore os log distribuidos de sua aplicação, no nosso cenario utilizamos um conjunto de soluções na qual compunham o famoso ELK STACK (Elasticsearch, Logstash e Kibana) com o adicional do Filebeat que é responsável por ler os arquivos de log e enviar para o logstash. Para complementar o nosso monitoramento além dos logs da aplicação, precisamos monitorar as metricas de nossa aplicação para nós ajudar com isso foi utilizado o Spring Boot Actuator, Micrometer e o Grafana para vizualização dessas metricas em forma de dashboard interativo. Segue as informações a seguir:
 ![elk-stack-with-filebeat](images/ELK-with-filebeat.png)
@@ -54,7 +54,7 @@ Para acessar o Kibana basta acessar:
 ```
 http://localhost:5601
 ```
-![kibana](images/Kibana.png)
+![kibana](images/Kibana.PNG)
 Para vizualizar os logs faça os passos a seguir:
 *  Acesse o `Kibana`
 *  Clique na opção a esqueda `Discover`
@@ -68,7 +68,7 @@ Para acessar o prometheus basta acessar:
 ```
 http://localhost:9090
 ```
-![Prometheus](images/prometheus.png)
+![Prometheus](images/prometheus.PNG)
 
 #### Grafana
 Para acessar o grafana basta acessar a url abaixo e por `dafault` o usuario e senha é `admin`:
@@ -77,8 +77,8 @@ http://localhost:3000
 ```
 Foi adicionado dois dashboards feitos pela comunidade para monitoramento da aplicação para acessa-los basta ir na opção `Dashboards>home`
 e irá aparecer o `Spring Boot System Monitor` e o `JVM (Micrometer)` basta clicar em um dos dois para vizualiza-los/altera-los.
-![Spring Boot System Monito](images/graphana-spring-monitor.png)
-![JVM Micrometer](images/graphana-jvm.png)
+![Spring Boot System Monito](images/graphana-spring-monitor.PNG)
+![JVM Micrometer](images/graphana-jvm.PNG)
 
 # Referências
 https://imasters.com.br/devsecops/configurando-elk-com-docker-e-filebeat

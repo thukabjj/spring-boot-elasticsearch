@@ -80,7 +80,7 @@ e irá aparecer o `Spring Boot System Monitor` e o `JVM (Micrometer)` basta clic
 ![Spring Boot System Monito](images/graphana-spring-monitor.PNG)
 ![JVM Micrometer](images/graphana-jvm.PNG)
 
-#Bonus
+# Bonus
 Para exemplifcar uma utilização do Elasticsearch foi desenvolvido um endpoint no qual tem como responsabilidae devolver os nomes e sobrenomes apartir do input do usuario, nesse endpoint foi utilizado `RestHighLevelClient` com a estrategia de `Fuzzy Query` no qual tem como objetivos nos retornar os dadosque contêm termos semelhantes ao termo de pesquisa, conforme medido por uma distância de edição de [`Levenshtein`](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-fuzzy-query.html). 
 Para acessa-la bastar acessar:
 

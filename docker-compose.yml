@@ -46,8 +46,10 @@ services:
     restart: unless-stopped
 
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+        # necessario para acessar todos os logs dockers
       - /var/lib/docker/containers:/usr/share/dockerlogs/data:ro
+        # necessario para acessar informações adicionais do container
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - elasticsearch
       - logstash
@@ -112,10 +114,6 @@ services:
       test: ["CMD","http://localhost:8080/"]
     depends_on:
       - elasticsearch
-      # - prometheus
-      # - filebeat
-      # - grafana
-      # - logstash
     restart: on-failure:5 
     links:
       - elasticsearch:elasticsearch

@@ -18,7 +18,7 @@ public class CustomerApplication {
 	}
 
 	@Bean
-	@ConditionalOnExpression("${start-up-data:true}")
+	@ConditionalOnExpression("${start-up-data:false}")
 	public void processData(){
 		customeService.registerCustomerIndexBulkWithElasticseartRestTemplate();
 	}

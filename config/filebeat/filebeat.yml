@@ -10,28 +10,28 @@ filebeat.inputs:
     ignore_older: 10m
 
 processors:
-  # decode the log field (sub JSON document) if JSON encoded, then maps it's fields to elasticsearch fields
+  # Decodifica o log field (Documento JSON) se for codificado em JSON e mapeie seus campos para o elasticsearch
   - decode_json_fields:
       fields: ["log", "message", "msg"]
       target: ""
-      # overwrite existing target elasticsearch fields while decoding json fields
+      # Sobrescreve os campos existentes no elasticsearch enquanto decodifica os campos json
       overwrite_keys: true
   - add_docker_metadata:
-      # annotates each event with relevant metadata from Docker containers
+      # Anota cada evento com metadados relevantes de contêineres Docker
       host: "unix:///var/run/docker.sock"
   - drop_fields:
-      # drop the fields below in order to have a cleaner
+      # Desconsiderando/limpando os campos a baixo
       fields: ["container.labels.io_buildpacks_build_metadata", "container.labels.io_buildpacks_lifecycle_metadata", "container.labels.io_buildpacks_stack_id"]
 
 filebeat.config.modules:
   path: ${path.config}/modules.d/*.yml
   reload.enabled: false
 
-# setup filebeat to send output to logstash
+# configurar filebeat para enviar saída para logstash
 output.logstash:
   hosts: ["logstash"]
 
-# Write Filebeat own logs only to file to avoid catching them with itself in docker log files
+# Grave os próprios logs do Filebeat apenas no arquivo para evitar capturá-los com ele mesmo nos arquivos de log do docker
 logging.level: info
 logging.to_files: false
 logging.to_syslog: false

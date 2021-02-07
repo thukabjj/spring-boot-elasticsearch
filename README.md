@@ -4,7 +4,7 @@
 
 
 # Introdução
-Elasticsearch é um mecanismo de pesquisa de texto completo projetado especialmente para trabalhar com grandes conjuntos de dados. Seguindo essa descrição, é uma escolha natural usá-lo para armazenar e pesquisar logs de aplicativos e conjunto com Logstash e Kibana, é parte de uma solução poderosa chamada Elastic Stack, ou para os mais proximos ELK STACK. Porém manter logs de aplicativos não é o único caso de uso do Elasticsearch. Nesse projeto iremos desenvolver um exemplo da utilização do Elasticsearch como banco dados NoSQL através do Spring Boot Spring Data Elasticsearch e a utilização do RestHighLevelClient para inserção de alto volume de dados e buscas personalizadas em index especificos. Utilizamos nesse projeto um payload no qual contém 50k de dados para ser inseridos no Elasticsearch no start-up da aplicação. Por fim para complementar o ecossistema foi implementado o Micrometer(Prometheus) mecanismo para exportação de métricas, em conjunto com o Spring Boot Actuator,  e o Grafana que é uma plataforma para visualizar e analisar métricas por meio de dashboard.
+`Elasticsearch` é um mecanismo de pesquisa de texto completo projetado especialmente para trabalhar com grandes conjuntos de dados. Seguindo essa descrição, é uma escolha natural usá-lo para armazenar e pesquisar logs de aplicativos e conjunto com `Logstash` e `Kibana`, é parte de uma solução poderosa chamada `Elastic Stack`, ou para os mais proximos `ELK STACK`. Porém manter logs de aplicativos não é o único caso de uso do Elasticsearch. Nesse projeto iremos desenvolver um exemplo da utilização do Elasticsearch como banco dados `NoSQL` através do `Spring Data Elasticsearch` e a utilização do `RestHighLevelClient` para inserção de alto volume de dados e buscas personalizadas em index especificos. Utilizamos nesse projeto um payload no qual contém 50k de dados para ser inseridos no Elasticsearch no start-up da aplicação. Por fim para complementar o ecossistema foi implementado o Micrometer(Prometheus) mecanismo para exportação de métricas, em conjunto com o `Spring Boot Actuator`,  e o `Grafana` que é uma plataforma para visualizar e analisar métricas por meio de dashboard.
 
 # Pré-requisitos
 - [`Java 11+`](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
@@ -79,6 +79,21 @@ Foi adicionado dois dashboards feitos pela comunidade para monitoramento da apli
 e irá aparecer o `Spring Boot System Monitor` e o `JVM (Micrometer)` basta clicar em um dos dois para vizualiza-los/altera-los.
 ![Spring Boot System Monito](images/graphana-spring-monitor.PNG)
 ![JVM Micrometer](images/graphana-jvm.PNG)
+
+#Bonus
+Para exemplifcar uma utilização do Elasticsearch foi desenvolvido um endpoint no qual tem como responsabilidae devolver os nomes e sobrenomes apartir do input do usuario, nesse endpoint foi utilizado `RestHighLevelClient` com a estrategia de `Fuzzy Query` no qual tem como objetivos nos retornar os dadosque contêm termos semelhantes ao termo de pesquisa, conforme medido por uma distância de edição de [`Levenshtein`](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-fuzzy-query.html). 
+Para acessa-la bastar acessar:
+
+```
+localhost:8080/index.html
+```
+![name-suggestions](images/customer-search-example.gif)
+Uma distância de edição é o número de alterações de um caractere necessárias para transformar um termo em outro. Essas mudanças podem incluir: 
+* Mudando um personagem (caixa → raposa).
+* Removendo um caractere (preto → falta)
+* Inserindo um personagem (sic → doente)
+* Transpondo dois caracteres adjacentes (agir → gato)
+Para encontrar termos semelhantes, a `fuzzy` query cria um conjunto de todas as variações ou expansões possíveis do termo de pesquisa dentro de uma distância de edição especificada. E retorna a correspondências exatas para cada variação.
 
 # Referências
 * https://imasters.com.br/devsecops/configurando-elk-com-docker-e-filebeat

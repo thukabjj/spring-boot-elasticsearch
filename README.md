@@ -81,8 +81,8 @@ e irá aparecer o `Spring Boot System Monitor` e o `JVM (Micrometer)` basta clic
 ![JVM Micrometer](images/graphana-jvm.PNG)
 
 # Referências
-https://imasters.com.br/devsecops/configurando-elk-com-docker-e-filebeat
-https://piotrminkowski.com/2019/03/29/elasticsearch-with-spring-boot/
-https://github.com/ivangfr/springboot-elk-prometheus-grafana
-https://www.baeldung.com/spring-data-elasticsearch-tutorial
-https://medium.com/groww-engineering/simple-search-service-using-springboot-and-elasticsearch-1-aa09e2c98359
+* https://imasters.com.br/devsecops/configurando-elk-com-docker-e-filebeat
+* https://piotrminkowski.com/2019/03/29/elasticsearch-with-spring-boot/
+* https://github.com/ivangfr/springboot-elk-prometheus-grafana
+* https://www.baeldung.com/spring-data-elasticsearch-tutorial
+* https://medium.com/groww-engineering/simple-search-service-using-springboot-and-elasticsearch-1-aa09e2c98359

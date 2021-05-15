@@ -1,7 +1,11 @@
-FROM adoptopenjdk:11-jre-hotspot as builder
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} application.jar
-RUN java -Djarmode=layertools -jar application.jar extract
+FROM maven:3.8.1-jdk-11 as builder
+COPY src ./src
+COPY pom.xml .
+RUN mvn clean package -DskipTests
+RUN java -Djarmode=layertools -jar target/customer-api-0.0.1-SNAPSHOT.jar extract
+# ARG JAR_FILE=target/*.jar
+# COPY ${JAR_FILE} application.jar
+
 
 FROM adoptopenjdk:11-jre-hotspot
 COPY --from=builder application/ ./

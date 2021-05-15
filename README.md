@@ -1,3 +1,4 @@
+
 # Spring Data Elasticsearch e ELK Stack com Filebeat 
 
 
@@ -18,25 +19,11 @@
 $ git clone https://github.com/thukabjj/spring-boot-elasticsearch.git
 ``` 
 
-- Acesse a pasta do projeto customer-api e execute os seguintes comandos:
-```sh
-$ mvn package -DskipTests
-``` 
-
-Após a compilação do projeto, execute o comando:
-```sh
-$ cd target
-``` 
-```sh
-$ java -Djarmode=layertools -jar target/customer-api-0.0.1-SNAPSHOT.jar extract
-``` 
-Após a execução do comando retorne para a pasta raiz do projeto.
-
-- Após os preparativos, basta rodar comando a seguir na pasta raiz:
+- Após clonar o projeto, basta rodar comando a seguir na pasta raiz:
 ```sh
 $ docker-compose up -d --build --remove-orphans
 ``` 
-Para vizualizar todos os endpoints basta acessar a URL:
+Para visualizar todos os endpoints basta acessar a URL:
 ```
 http://localhost:8080/swagger-ui.html
 ```
